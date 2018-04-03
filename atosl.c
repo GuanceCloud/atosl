@@ -1133,7 +1133,7 @@ int main(int argc, char *argv[]) {
         switch (c) {
             case 'l':
                 errno = 0;
-                address = strtol(optarg, (char **)NULL, 16);
+                address = strtoull(optarg, (char **)NULL, 16);
                 if (errno != 0)
                     fatal("invalid load address: `%s': %s", optarg, strerror(errno));
                 options.load_address = address;
@@ -1279,7 +1279,7 @@ int main(int argc, char *argv[]) {
         for (i = optind; i < argc; i++) {
             Dwarf_Addr addr;
             errno = 0;
-            addr = strtol(argv[i], (char **)NULL, 16);
+            addr = strtoull(argv[i], (char **)NULL, 16);
             if (errno != 0)
                 fatal("invalid address: `%s': %s", argv[i], strerror(errno));
             ret = print_dwarf_symbol(dbg,
@@ -1303,7 +1303,7 @@ int main(int argc, char *argv[]) {
         for (i = optind; i < argc; i++) {
             Dwarf_Addr addr;
             errno = 0;
-            addr = strtol(argv[i], (char **)NULL, 16);
+            addr = strtoull(argv[i], (char **)NULL, 16);
             if (errno != 0)
                 fatal("invalid address address: `%s': %s", optarg, strerror(errno));
             ret = find_and_print_symtab_symbol(
