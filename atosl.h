@@ -49,6 +49,7 @@
 
 #define CPU_TYPE_ARM64 ((cpu_type_t)16777228)
 #define CPU_SUBTYPE_ARM64_ALL ((cpu_subtype_t)0)
+#define CPU_SUBTYPE_ARM64_E ((cpu_subtype_t)2)
 
 #define CPU_TYPE_I386 ((cpu_type_t)7)
 #define CPU_SUBTYPE_X86_ALL ((cpu_subtype_t)3)

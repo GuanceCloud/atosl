@@ -79,7 +79,8 @@ static struct {
     {"armv6",  CPU_TYPE_ARM, CPU_SUBTYPE_ARM_V6},
     {"armv7",  CPU_TYPE_ARM, CPU_SUBTYPE_ARM_V7},
     {"armv7s", CPU_TYPE_ARM, CPU_SUBTYPE_ARM_V7S},
-    {"arm64",  CPU_TYPE_ARM64, CPU_SUBTYPE_ARM64_ALL}
+    {"arm64",  CPU_TYPE_ARM64, CPU_SUBTYPE_ARM64_ALL},
+    {"arm64e",  CPU_TYPE_ARM64, CPU_SUBTYPE_ARM64_E}
 };
 
 struct symbol_t {
@@ -703,7 +704,7 @@ static int dwarf_mach_object_access_internals_init(
         fatal_file(ret);
     
     /* Need to skip 4 bytes of the reserved field of mach_header_64  */
-    if (header.cputype == CPU_TYPE_ARM64 && header.cpusubtype == CPU_SUBTYPE_ARM64_ALL) {
+    if (header.cputype == CPU_TYPE_ARM64 && (header.cpusubtype == CPU_SUBTYPE_ARM64_ALL || header.cpusubtype == CPU_SUBTYPE_ARM64_E)) {
         context.is_64 = 1;
         ret = lseek(obj->handle, sizeof(uint32_t), SEEK_CUR);
         if (ret < 0)
