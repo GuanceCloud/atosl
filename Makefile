@@ -37,8 +37,10 @@ install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f atosl ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/atosl
+	ln -s ${DESTDIR}${PREFIX}/bin/atosl ${DESTDIR}${PREFIX}/bin/atos
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/atosl
+	rm -f ${DESTDIR}${PREFIX}/bin/atos
 
 distclean:: clean
