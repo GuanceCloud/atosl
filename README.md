@@ -18,7 +18,7 @@ atosl has been tested on Linux but will likely run on any platform that
 libdwarf is available for.
 
 ## Requirements
-sudo apt-get install libiberty-dev libdwarf-dev
+sudo apt-get install libiberty-dev libdwarf-dev  
 CFLAGS= -I /usr/include/libdwarf  
 [libdwarf](http://www.prevanders.net/dwarf.html) - This library
 does the heavily lifting of parsing the DWARF debugging data within the
