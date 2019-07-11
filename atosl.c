@@ -741,6 +741,7 @@ static int dwarf_mach_object_access_internals_init(
         case MH_DYLINKER:
             if (debug)
                 fprintf(stderr, "File type: dyld file\n");
+            break;
         default:
             fatal("unsupported file type: 0x%x", header.filetype);
             assert(0);
