@@ -178,6 +178,9 @@ static struct dwarf_subprogram_t *read_cu_entry(
 
     rc = dwarf_highpc_b(the_die, &highpc, &form, &class, &err);
     DWARF_ASSERT(rc, err);
+    if (class == DW_FORM_CLASS_CONSTANT) {
+        highpc += lowpc;
+    }
 
     /* TODO: when would these not be defined? */
     if (lowpc && highpc) {
@@ -366,7 +369,10 @@ struct dwarf_subprogram_t *read_from_globals(Dwarf_Debug dbg)
 
         ret = dwarf_highpc_b(die, &highpc, &form, &class, &err);
         DWARF_ASSERT(ret, err);
-
+        if (class == DW_FORM_CLASS_CONSTANT) {
+            highpc += lowpc;
+        }
+        
         /* TODO: when would these not be defined? */
         if (lowpc && highpc) {
             subprogram = malloc(sizeof(*subprogram));
