@@ -136,6 +136,8 @@ static struct dwarf_subprogram_t *read_cu_entry(
         struct dwarf_subprogram_t *subprograms,
         Dwarf_Debug dbg, Dwarf_Die cu_die, Dwarf_Die the_die, Dwarf_Unsigned language)
 {
+    enum Dwarf_Form_Class class = DW_FORM_CLASS_UNKNOWN;
+    Dwarf_Half form = 0;
     char* die_name = 0;
     Dwarf_Error err;
     Dwarf_Half tag;
@@ -174,7 +176,7 @@ static struct dwarf_subprogram_t *read_cu_entry(
     rc = dwarf_lowpc(the_die, &lowpc, &err);
     DWARF_ASSERT(rc, err);
 
-    rc = dwarf_highpc(the_die, &highpc, &err);
+    rc = dwarf_highpc_b(the_die, &highpc, &form, &class, &err);
     DWARF_ASSERT(rc, err);
 
     /* TODO: when would these not be defined? */
@@ -327,6 +329,8 @@ static char *get_cache_filename(struct subprograms_options_t *options,
 /* simple but too slow */
 struct dwarf_subprogram_t *read_from_globals(Dwarf_Debug dbg)
 {
+    enum Dwarf_Form_Class class = DW_FORM_CLASS_UNKNOWN;
+    Dwarf_Half form = 0;
     Dwarf_Global *globals = NULL;
     Dwarf_Signed nglobals;
     Dwarf_Off offset;
@@ -360,7 +364,7 @@ struct dwarf_subprogram_t *read_from_globals(Dwarf_Debug dbg)
         ret = dwarf_lowpc(die, &lowpc, &err);
         DWARF_ASSERT(ret, err);
 
-        ret = dwarf_highpc(die, &highpc, &err);
+        ret = dwarf_highpc_b(die, &highpc, &form, &class, &err);
         DWARF_ASSERT(ret, err);
 
         /* TODO: when would these not be defined? */
