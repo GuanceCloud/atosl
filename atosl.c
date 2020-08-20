@@ -558,7 +558,7 @@ int handle_stabs_symbol(int is_fun_stab, Dwarf_Addr search_addr, const struct sy
     return 0;
 }
 
-int find_and_print_symtab_symbol(Dwarf_Addr slide, Dwarf_Addr addr)
+int  find_and_print_symtab_symbol(Dwarf_Addr slide, Dwarf_Addr addr)
 {
     union {
         struct nlist_t nlist32;
@@ -1268,7 +1268,7 @@ int main(int argc, char *argv[]) {
     /* If there is dwarf info we'll use that to parse, otherwise we'll use the
      * symbol table */
     //do not use dwarf
-    if (context.is_dwarf && ret == DW_DLV_OK && 0) {
+    if (context.is_dwarf && ret == DW_DLV_OK) {
 
         struct subprograms_options_t opts = {
             .persistent = options.use_cache,
@@ -1292,7 +1292,8 @@ int main(int argc, char *argv[]) {
                                  options.load_address - context.intended_addr,
                                  addr);
             if (ret != DW_DLV_OK) {
-                derr = print_subprogram_symbol(
+                //derr = print_subprogram_symbol(
+                derr = find_and_print_symtab_symbol(
                     options.load_address - context.intended_addr, addr);
             }
 
