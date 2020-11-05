@@ -50,7 +50,7 @@
 
 #define CPU_TYPE_ARM64 ((cpu_type_t)16777228)
 #define CPU_SUBTYPE_ARM64_ALL ((cpu_subtype_t)0)
-#define CPU_SUBTYPE_ARM64_E ((cpu_subtype_t)2)
+#define CPU_SUBTYPE_ARM64E ((cpu_subtype_t)2)
 
 #define CPU_TYPE_I386 ((cpu_type_t)7)
 #define CPU_SUBTYPE_X86_ALL ((cpu_subtype_t)3)
@@ -58,6 +58,8 @@
 #define N_ARM_THUMB_DEF 0x0008
 
 #define NUMOF(x) (sizeof((x))/sizeof((x)[0]))
+
+#define CPU_SUBTYPE_MASK 0xff000000	/* mask for feature flags */
 
 typedef int cpu_type_t;
 typedef int cpu_subtype_t;

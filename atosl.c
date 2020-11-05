@@ -80,7 +80,7 @@ static struct {
     {"armv7",  CPU_TYPE_ARM, CPU_SUBTYPE_ARM_V7},
     {"armv7s", CPU_TYPE_ARM, CPU_SUBTYPE_ARM_V7S},
     {"arm64",  CPU_TYPE_ARM64, CPU_SUBTYPE_ARM64_ALL},
-    {"arm64e",  CPU_TYPE_ARM64, CPU_SUBTYPE_ARM64_E}
+    {"arm64e",  CPU_TYPE_ARM64, CPU_SUBTYPE_ARM64E}
 };
 
 struct symbol_t {
@@ -702,9 +702,10 @@ static int dwarf_mach_object_access_internals_init(
     ret = _read(obj->handle, &header, sizeof(header));
     if (ret < 0)
         fatal_file(ret);
-    
+    // mask cpusubtype
+    header.cpusubtype &= ~CPU_SUBTYPE_MASK;
     /* Need to skip 4 bytes of the reserved field of mach_header_64  */
-    if (header.cputype == CPU_TYPE_ARM64 && (header.cpusubtype == CPU_SUBTYPE_ARM64_ALL || header.cpusubtype == CPU_SUBTYPE_ARM64_E)) {
+    if (header.cputype == CPU_TYPE_ARM64 && (header.cpusubtype == CPU_SUBTYPE_ARM64_ALL || header.cpusubtype == CPU_SUBTYPE_ARM64E)) {
         context.is_64 = 1;
         ret = lseek(obj->handle, sizeof(uint32_t), SEEK_CUR);
         if (ret < 0)
@@ -1018,7 +1019,14 @@ int print_dwarf_symbol(Dwarf_Debug dbg, Dwarf_Addr slide, Dwarf_Addr addr)
 
     if (ret == DW_DLV_NO_ENTRY)
         return ret;
-
+    /*printf("arange=0x%llx, segment=0x%llx, segment_entry_size0x%llx, start=0x%llx, length=0x%llx, cu_die_offset=0x%llx, err=0x%llx\n",
+            arange,
+            &segment,
+            &segment_entry_size,
+            &start,
+            &length,
+            &cu_die_offset,
+            &err);*/
     ret = dwarf_get_arange_info_b(
             arange,
             &segment,
@@ -1216,7 +1224,7 @@ int main(int argc, char *argv[]) {
                 fatal("unable to read arch struct");
 
             context.arch.cputype = ntohl(context.arch.cputype);
-            context.arch.cpusubtype = ntohl(context.arch.cpusubtype);
+            context.arch.cpusubtype = ntohl(context.arch.cpusubtype) & ~CPU_SUBTYPE_MASK;
             context.arch.offset = ntohl(context.arch.offset);
 
             if ((context.arch.cputype == options.cpu_type) &&
