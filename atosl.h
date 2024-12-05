@@ -22,6 +22,7 @@
 #define MH_DSYM 0xa
 #define MH_EXECUTE 0x2
 #define MH_DYLINKER 0x7
+#define MH_FILESET 0xc
 
 #define LC_SEGMENT 0x1
 #define LC_SYMTAB 0x2

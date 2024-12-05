@@ -743,6 +743,10 @@ static int dwarf_mach_object_access_internals_init(
             if (debug)
                 fprintf(stderr, "File type: dyld file\n");
             break;
+        case MH_FILESET:
+            if (debug)
+                fprintf(stderr, "File type: file set\n");
+            break;
         default:
             fatal("unsupported file type: 0x%x", header.filetype);
             assert(0);
